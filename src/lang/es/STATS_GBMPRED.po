@@ -1,0 +1,66 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2014
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: STATS_GBMPRED.R:91
+msgid "The R %s package is required but could not be loaded."
+msgstr ""
+"El paquete de R %s es necesario pero no se ha podido cargar."
+
+#: STATS_GBMPRED.R:103
+msgid "Model file was not found or could not be read: %s"
+msgstr ""
+"No se ha encontrado el archivo modelo o bien no se ha podido leer: %s"
+
+#: STATS_GBMPRED.R:106
+msgid "The specified file or workspace does not contain a gbm model estimated by STATS_GBM"
+msgstr ""
+"El archivo o espacio de trabajo especificado no contiene un modelo gbm estimado por STATS_GBM"
+
+#: STATS_GBMPRED.R:111
+msgid "Best number of trees value was not saved.  Use boostplot to save it."
+msgstr ""
+"No se ha guardado el valor de Mejor número de árboles. Utilice boostplot para guardarlo."
+
+#: STATS_GBMPRED.R:120
+msgid "Generalized Boosted Regression Predictions"
+msgstr ""
+"Predicciones de regresión ampliada generalizada"
+
+#: STATS_GBMPRED.R:122
+msgid "Settings"
+msgstr ""
+"Configuración"
+
+#: STATS_GBMPRED.R:124
+msgid "Summary"
+msgstr ""
+"Resumen"
+
+#: STATS_GBMPRED.R:125
+msgid "Results calculated by the R gbm procedure"
+msgstr ""
+"Resultados calculados por el procedimiento gbm de R"
+
+#: STATS_GBMPRED.R:130
+msgid "Note: predicted values do not include the offset variable: %s"
+msgstr ""
+"Nota: los valores pronosticados no incluyen la variable desplazada: %s"
+
+
