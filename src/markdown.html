@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>STATS GBMPRED Extension Command</title>
+
+<link rel="stylesheet" type="text/css" href="extsyntax.css" />
+
+
+
+
+
+</head>
+
+<body>
+<h1>STATS GBMPRED Extension Command</h1>
+
+<p>Make predictions for new data from a model estimated by the STATS GBM
+extension command.</p>
+<div class="syntax">
+<p>STATS GBMPRED MODELFILE=&ldquo;<em>filespec</em>&rdquo;
+ID=<em>varname</em></p>
+
+<p>/SAVE DATASET=<em>dataset</em><sup>&#42;</sup> INCLUDEIND = YES<sup>&#42;&#42;</sup> or NO</p>
+
+<p>/OPTIONS BESTTREES=YES or NO NTREES=<em>integer or list of integers</em>
+PREDSCALE = LINK or RESPONSE</p>
+
+<p>/HELP.</p>
+
+
+
+<p><sup>&#42;</sup> Required<br/>
+<sup>&#42;&#42;</sup> Default</p>
+</div>
+<p>STATS GBMPRED /HELP displays this text and does nothing else.</p>
+
+<pre class="example"><code>STATS GBMPRED 
+/SAVE DATASET=pred INCLUDEIND=YES
+/OPTIONS BESTTREES=YES PREDSCALE=LINK.
+</code></pre>
+
+<p>All of the predictors from the original model must appear in the
+dataset on which predictions will be made.  Missing values in
+the predictors will be treated the same way as they were in
+the estimation process.</p>
+
+<p><strong>MODELFILE</strong> specifies to use the model from a file saved by
+STATS GBM.  If it is not specified, the estimation results are
+taken from the currently loaded R workspace.</p>
+
+<p>The command output is a new dataset.  <strong>ID</strong> optionally specifies an
+ID variable to facilitate merging this with the input data.</p>
+
+<h2>SAVE</h2>
+
+<p><strong>DATASET</strong> specifies a name for the predicted values dataset.  The dataset
+name must not already be in use.  The dataset variables will be
+the ID variable, if specified,
+the predicted values, and
+the independent variables if INCLUDEIND = YES.</p>
+
+<p>The number of trees used for the predictions is controlled by
+<strong>BESTTREES</strong> and <strong>NTREES</strong>.  If a best trees value was computed, it can
+be used by specifying BESTTREES=YES.  Otherwise, NTREES specifies
+the number of trees or a list of numbers of trees to use.  If both
+BESTTREES and NTREES are specified, the besttrees value is prepended
+to the NTREES list.  If neither is specified, the number of trees
+specified at estimation time is used.</p>
+
+<p>There will be one variable in the output dataset for each number of trees
+specified.  If the dependent variable in the model is named
+Y, the prediction variables will have names like Y&#95;110, Y&#95;500,&hellip;
+where the suffix is the number of trees used for that set of predictions.</p>
+
+<p><strong>PREDSCALE</strong> specifies what is being predicted.  If the model has the
+form Y= f(x), LINK creates predictions for f(x), i. e., the link
+function.  For Bernoulli it calculates the log odds; for Poisson,
+the log of counts, and for coxph, the log hazard.</p>
+
+<p>If <strong>RESPONSE</strong> is specified, predictions are converted
+to the outcome scale.  This only affects  Bernoulli and Poisson.</p>
+
+<p>&copy; Copyright IBM Corp. 1989, 2014</p>
+
+</body>
+
+</html>
+
