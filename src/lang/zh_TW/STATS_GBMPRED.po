@@ -1,0 +1,66 @@
+#/***********************************************************************
+# * Licensed Materials - Property of IBM 
+# *
+# * IBM SPSS Products: Statistics Common
+# *
+# * (C) Copyright IBM Corp. 1989, 2014
+# *
+# * US Government Users Restricted Rights - Use, duplication or disclosure
+# * restricted by GSA ADP Schedule Contract with IBM Corp. 
+# ************************************************************************/
+
+# NLS_ENCODING=UTF-8
+# IBMUPYTH
+
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: STATS_GBMPRED.R:91
+msgid "The R %s package is required but could not be loaded."
+msgstr ""
+"R %s 套件是必要套件，但無法載入。"
+
+#: STATS_GBMPRED.R:103
+msgid "Model file was not found or could not be read: %s"
+msgstr ""
+"模型檔找不到或無法讀取：%s"
+
+#: STATS_GBMPRED.R:106
+msgid "The specified file or workspace does not contain a gbm model estimated by STATS_GBM"
+msgstr ""
+"指定的檔案或工作區未包含 STATS_GBM 估計的 gbm 模型"
+
+#: STATS_GBMPRED.R:111
+msgid "Best number of trees value was not saved.  Use boostplot to save it."
+msgstr ""
+"未儲存最佳樹狀結構值數目。使用 boostplot 以儲存它。"
+
+#: STATS_GBMPRED.R:120
+msgid "Generalized Boosted Regression Predictions"
+msgstr ""
+"廣義增強迴歸預測"
+
+#: STATS_GBMPRED.R:122
+msgid "Settings"
+msgstr ""
+"設定"
+
+#: STATS_GBMPRED.R:124
+msgid "Summary"
+msgstr ""
+"摘要"
+
+#: STATS_GBMPRED.R:125
+msgid "Results calculated by the R gbm procedure"
+msgstr ""
+"由 R gbm 程序計算的結果"
+
+#: STATS_GBMPRED.R:130
+msgid "Note: predicted values do not include the offset variable: %s"
+msgstr ""
+"附註：預測值未包含偏移變數：%s"
+
+
