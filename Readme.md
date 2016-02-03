@@ -1,11 +1,11 @@
 # STATS GBMPRED
-## Calculate predictions from generalized boosted regression mod
- This package is a companion to the STATS GBM package, whi
+## Calculate predictions from generalized boosted regression models created with STATS GBM.
+ This package is a companion to the STATS GBM package, which creates generalized boosted regression models.  The package reads the results of STATS GBM and creates a new dataset of predictions for new data.
 
 ---
 Requirements
 ----
-- IBM SPSS Statistics 18 or later
+- IBM SPSS Statistics 18 or later and the corresponding IBM SPSS Statistics-Integration Plug-in for R.
 
 ---
 Installation intructions
