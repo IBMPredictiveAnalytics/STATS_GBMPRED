@@ -2,7 +2,7 @@ Name: STATS GBMPRED
 Dialog-Specs: STATS_GBMPRED.spd
 Command-Specs: STATS_GBMPRED.xml
 Code-Files: STATS_GBMPRED.R
-Misc-Files: markdown.html,extsyntax.css,IBMdialogicon.png
+Misc-Files: extsyntax.css,markdown.html,IBMdialogicon.png
 Summary: Calculate predictions from generalized boosted regression mod
  els created with STATS GBM
 Description: This package is a companion to the STATS GBM package, whi
@@ -10,7 +10,7 @@ Description: This package is a companion to the STATS GBM package, whi
  the results of STATS GBM and creates a new dataset of predictions for
   new data.  It is based on the R gbm package also used by STATS GBM
 Author: JKP, IBM SPSS
-Version: 1.0.3
+Version: 1.0.5
 Product-Version: 18
 Date: 4/3/13
 Categories: spss regression boosting prediction

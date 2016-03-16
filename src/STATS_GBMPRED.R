@@ -2,14 +2,16 @@
 
 #Licensed Materials - Property of IBM
 #IBM SPSS Products: Statistics General
-#(c) Copyright IBM Corp. 2014
+#(c) Copyright IBM Corp. 2016
 #US Government Users Restricted Rights - Use, duplication or disclosure 
 #restricted by GSA ADP Schedule Contract with IBM Corp.
 
 # author=  'jkp, IBM'
-# version=  '1.0.0'
+# version=  '1.0.1'
 # history
-# 03-30-2013 original version
+# 03-oct-2013 original version
+# 26-oct-2015 check factor levels and tolerate envir error on load
+# 13-mar=2016 fix problem with prediction when target is a factor
 
 helptext = 'STATS GBMPRED MODELFILE=filespec
 ID=varname
@@ -98,14 +100,16 @@ doGbmPred <- function(dataset, modelfile=NULL, id=NULL,
     else {
         besttrees = FALSE
     }
+
     if (!is.null(modelfile))
         tryCatch(load(modelfile), error=function(e) {
             stop(sprintf(gtxt("Model file was not found or could not be read: %s"),modelfile), call.=FALSE)})
     # ensure that we have output from STATS GBM.  Only checking the result object
-    tryCatch(class(res) == "gbm", error = function(e) {
+
+    if (!exists("res") || class(res) != "gbm") {
         stop(gtxt("The specified file or workspace does not contain a gbm model estimated by STATS_GBM"),
         call.=FALSE)
-        })
+    }
     if (besttrees) {
         besttree = tryCatch(modelproperties$bestiter, error = function(e) {
         stop(gtxt("Best number of trees value was not saved.  Use boostplot to save it."), 
@@ -136,8 +140,13 @@ doGbmPred <- function(dataset, modelfile=NULL, id=NULL,
 
     dta <- spssdata.GetDataFromSPSS(allvars, missingValueToNA = TRUE, 
         keepUserMissing=modelproperties["missingvalues"], factorMode = "levels")    
-        
-    predvalues = data.frame(predict(res, newdata=dta, n.trees=ntrees, type=predscale))
+
+    checklevels(res, dta, indep)  # stops if new levels
+
+    # for factors, predictions are probabilities for each category
+    predvalues = predict(res, newdata=dta, n.trees=ntrees, single.tree=FALSE, type=predscale)
+    predvalues = data.frame(predvalues)
+    valuespertree = length(predvalues)/length(ntrees)  # must be an integer
     
     spssdict = spssdictionary.GetDictionaryFromSPSS()
     # build output dataset dictionary
@@ -158,13 +167,23 @@ doGbmPred <- function(dataset, modelfile=NULL, id=NULL,
     depvarspec = modelproperties["depvar"] # list of properties
     # Fill in entries for each predicted variable
     # Names are generated as estimation dep variable with a tree count suffix
+    # For categorical variables, the category value becomes the variable label
+
     depvarinputspec = depvarspec
     for (i in 1:length(ntrees)) {
-        depvarname = getname(depvarinputspec, ntrees[i], nameset)
-        depvarspec[[1]][1] = depvarname   # replace name in model with suffixed name
-        dictlist[slot] = depvarspec
+      for (j in 1:valuespertree) {
+        depvarname = getname(depvarinputspec, ntrees[i], nameset, valuespertree, j)
+        ###depvarspec[[1]][1] = depvarname   # replace name in model with suffixed name
+        dictlist[[slot]] = data.frame(c(
+            depvarname, 
+            names(predvalues)[[j]], 
+            0, 
+            "F8.4", 
+            "scale")
+        )
         nameset[slot] = depvarname
         slot = slot + 1
+      }
     }
 
     if (includeind) { # assuming we can use current independent variable properties
@@ -174,6 +193,7 @@ doGbmPred <- function(dataset, modelfile=NULL, id=NULL,
         }
     }
     spsspkg.EndProcedure()
+    
     dictlist = do.call(spssdictionary.CreateSPSSDictionary, dictlist)
     tryCatch(spssdictionary.SetDictionaryToSPSS(dataset, dictlist),
         error = function(e) {spssdictionary.EndDataStep(); stop(as.character(e), call.=FALSE)})
@@ -191,8 +211,11 @@ doGbmPred <- function(dataset, modelfile=NULL, id=NULL,
     spssdictionary.EndDataStep()
 }
 
-getname = function(depvarspec, ntrees, nameset) {
+getname = function(depvarspec, ntrees, nameset, valuespertree, value) {
     root = depvarspec[[1]][1]
+    if (valuespertree > 1) {
+      root = paste(root, value, sep="_")
+    }
     roottrial = paste(root, ntrees, sep="_")
     trial = 1
     while (roottrial %in% nameset) {
@@ -200,6 +223,36 @@ getname = function(depvarspec, ntrees, nameset) {
         trial = trial + 1
     }
     return(roottrial)
+}
+
+checklevels = function(res, dta, allvars) {
+    # report any new levels for factor variables and
+    # stop if any are found
+    
+    # res is estimation results
+    # dta is the prediction data
+    # allvars is the list of predictors
+    
+    ncols = length(allvars)
+    okay = TRUE
+    aa=attr(res$Terms, "factors")
+    fac = dimnames(aa)[[2]]
+
+    for(i in 1:ncols) {
+        #if(is.factor(dta[,i])) {
+        if(allvars[[i]] %in% fac) {
+            dtalevels <- match(levels(dta[,i]), res$var.levels[[i]])
+            if(any(is.na(dtalevels))) {
+                print(paste(gtxt("New levels for variable "),
+                    res$var.names[i],": ",
+                    levels(dta[,i])[is.na(dtalevels)], sep=""))
+                okay = FALSE
+            }
+        }
+    }
+    if (!okay) {
+        stop(gtxt("Stopping.  Predictions cannot be made"), call.=FALSE)
+    }
 }
 
 # localization initialization
