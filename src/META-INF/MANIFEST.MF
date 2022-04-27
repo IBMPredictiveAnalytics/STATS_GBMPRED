@@ -6,11 +6,11 @@ Misc-Files: extsyntax.css,markdown.html,IBMdialogicon.png
 Summary: Calculate predictions from generalized boosted regression mod
  els created with STATS GBM
 Description: This package is a companion to the STATS GBM package, whi
- ch creates generalized boosted regression models.  The package reads 
+ ch creates generalized boosted regression models.  The package reads
  the results of STATS GBM and creates a new dataset of predictions for
   new data.  It is based on the R gbm package also used by STATS GBM
 Author: JKP, IBM SPSS
-Version: 1.0.5
+Version: 1.0.6
 Product-Version: 18
 Date: 4/3/13
 Categories: spss regression boosting prediction
